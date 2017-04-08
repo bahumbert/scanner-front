@@ -23,3 +23,7 @@
       /*height: 50px;
       border: 1px solid red;*/
 }
+
+.table-select tbody tr {
+    cursor: pointer;
+}

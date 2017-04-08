@@ -5,8 +5,8 @@ import { ListJoueursComponent } from './components/list-joueurs/list-joueurs.com
 
 export const routes: Routes = [
     { path: '', redirectTo: 'liste-joueurs', pathMatch: 'full' },
-    { path: '**', redirectTo: 'liste-joueurs', pathMatch: 'full' },
     { path: 'liste-joueurs', component: ListJoueursComponent },
+    { path: '**', redirectTo: 'liste-joueurs', pathMatch: 'full' },
 ]
 
 @NgModule({

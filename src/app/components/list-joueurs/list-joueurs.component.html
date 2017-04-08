@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover" [mfData]="data | dataFilter : filterQuery : filterField" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+<table class="table table-striped table-hover table-select" [mfData]="data | dataFilter : filterQuery : filterField" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
     <div class='chargement text-center' *ngIf="!viewIsLoad">
         <h2>Chargement</h2>
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
@@ -25,7 +25,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr class='tr-table' *ngFor="let item of mf.data">
+    <tr class='tr-table' *ngFor="let item of mf.data" (click)="modalSelectionOpen(item)">
         <td>{{item.id}}</td>
         <td>{{item.joueur}}</td>
         <td><img class="image-empire" src="{{item.urlImageEmpire}}"> {{item.empire}}</td>
@@ -33,3 +33,17 @@
     </tr>
     </tbody>
 </table>
+
+<modal #modalSelection>
+    <modal-header>
+        <h1>Vous avez cliqué sur la ligne de <small><strong>{{selectedLineJoueur}} ({{selectedLineId}})</strong></small>, que voulez-vous faire ?</h1>
+    </modal-header>
+    <modal-content>
+        <button class="btn btn-primary" (click)="modalSelectionClose('statsHazeron')">Consulter ses statistiques sur hazeron.com</button>
+        <button class="btn btn-success" routerLink="" (click)="modalSelectionClose()">Consulter ses statistiques sur le scanner</button>
+        <button class="btn btn-warning" routerLink="" (click)="modalSelectionClose()">Consulter les statistiques de son empire sur le scanner</button>
+    </modal-content>
+    <modal-footer>
+        <button class="btn btn-secondary" (click)="modalSelection.close()">Annuler</button>
+    </modal-footer>
+</modal>
