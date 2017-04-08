@@ -1,5 +1,14 @@
-<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+<table class="table table-striped table-hover" [mfData]="data | dataFilter : filterQuery : filterField" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+    <div class='chargement text-center' *ngIf="!viewIsLoad">
+        <h2>Chargement</h2>
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+    </div>
     <thead>
+        <tr>
+               <td><label for="filter-field">Filtrer:</label><input id="filter-field" class="form-control input-33" [(ngModel)]="filterQuery"/></td>
+               <td class="vcenter td-radio"><input type="radio" id="filter-radio-1" name="filterField" [(ngModel)]="filterField" value="joueur"/> <label for="filter-radio-1">Joueur</label>
+               <input type="radio" id="filter-radio-2" name="filterField" [(ngModel)]="filterField" value="empire"/> <label for="filter-radio-2">Empire</label></td>
+       </tr>
     <tr>
         <th style="width: 20%">
             <mfDefaultSorter by="id">Id</mfDefaultSorter>

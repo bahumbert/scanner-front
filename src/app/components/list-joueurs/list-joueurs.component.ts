@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TestDataTable } from '../../model/test-data-table'
+import { ListeJoueurs } from '../../model/liste-joueurs'
 import { ListeJoueursService } from '../../services/liste-joueurs-service'
 
 @Component({
@@ -10,8 +10,14 @@ import { ListeJoueursService } from '../../services/liste-joueurs-service'
 
 export class ListJoueursComponent implements OnInit {
 
-    data: Array<TestDataTable>;
+    viewIsLoad: boolean = false;
+
+    data: Array<ListeJoueurs>;
     rowsOnPage: number = 500;
+    filterQuery = "";
+    sortBy = "joueur";
+    sortOrder = "asc";
+    filterField: string = 'joueur';
 
     constructor(private listeJoueursService: ListeJoueursService) { }
 
@@ -20,7 +26,11 @@ export class ListJoueursComponent implements OnInit {
     }
 
     getListe(){
-        this.listeJoueursService.getListJoueurs().then(liste => this.data = liste);
+        let that = this;
+        this.listeJoueursService.getListJoueurs().then(function(liste){
+            that.data = liste;
+            that.viewIsLoad = true;
+        });
     }
 
 }

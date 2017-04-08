@@ -3,5 +3,5 @@ export class ListeJoueurs{
     joueur : string;
     urlImageEmpire: string;
     empire: string;
-    connexion: date;
+    connexion: string;
 }

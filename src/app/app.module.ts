@@ -15,11 +15,14 @@ import { ListeJoueursService } from './services/liste-joueurs-service'
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { MockDb }  from './mock/mock-db';
 
+import { DataFilterPipe }   from './services/data-filter.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
     ListJoueursComponent,
     NavBarComponent,
+    DataFilterPipe,
   ],
   imports: [
     BrowserModule,

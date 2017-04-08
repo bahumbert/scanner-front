@@ -1,4 +1,4 @@
-import { TestDataTable } from '../model/test-data-table'
+import { ListeJoueurs } from '../model/liste-joueurs'
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 
@@ -9,11 +9,11 @@ export class ListeJoueursService {
 
     constructor(private http: Http) { }
 
-    getListJoueurs(): Promise<TestDataTable[]> {
+    getListJoueurs(): Promise<ListeJoueurs[]> {
 
         return this.http.get(this.listeUrl)
                        .toPromise()
-                       .then(response => response.json().data as TestDataTable[])
+                       .then(response => response.json().data as ListeJoueurs[])
                        .catch(this.handleError);
 
     //return Promise.resolve(TEST);
