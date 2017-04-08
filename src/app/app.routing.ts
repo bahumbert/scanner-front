@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ListJoueursComponent } from './list-joueurs/list-joueurs.component';
+import { ListJoueursComponent } from './components/list-joueurs/list-joueurs.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'liste-joueurs', pathMatch: 'full' },

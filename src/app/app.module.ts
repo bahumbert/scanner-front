@@ -5,24 +5,31 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
-// Routing Module
 import { AppRoutingModule } from './app.routing';
-import { ListJoueursComponent } from './list-joueurs/list-joueurs.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { ListJoueursComponent } from './components/list-joueurs/list-joueurs.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { DataTableModule } from 'angular2-datatable'
+
+import { ListeJoueursService } from './services/liste-joueurs-service'
+
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { MockDb }  from './mock/mock-db';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListJoueursComponent,
-    NavBarComponent
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    DataTableModule,
+    InMemoryWebApiModule.forRoot(MockDb),
   ],
-  providers: [],
+  providers: [ListeJoueursService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
