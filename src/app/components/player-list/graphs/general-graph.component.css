@@ -6,6 +6,10 @@
     position: relative;
 }
 
+.relative-div{
+    position: relative;
+}
+
 .chargement{
     position:absolute;
     background-color: black;
@@ -13,16 +17,9 @@
     width: 100%;
     height: 100%;
     top: 0;
-    min-height: 120px;
+    min-height: 400px;
     color: white;
     z-index: 1000;
-}
-
-.vcenter{
-    display: table-cell;
-      vertical-align: middle;
-      /*height: 50px;
-      border: 1px solid red;*/
 }
 
 .table-select tbody tr {
