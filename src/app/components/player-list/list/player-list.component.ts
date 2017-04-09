@@ -18,9 +18,9 @@ export class PlayerListComponent implements OnInit {
     data: Array<PlayerList>;
     rowsOnPage: number = 500;
     filterQuery = "";
-    sortBy = "joueur";
+    sortBy = "player";
     sortOrder = "asc";
-    filterField: string = 'joueur';
+    filterField: string = 'player';
     parentRouter: any;
 
     selectedLineId: string;

@@ -27,19 +27,43 @@ export class PlayerListService {
                     .map();
 }*/
 
-getDataLineGraph(): Promise<Object>{
+getDataGraphActivePlayersByDate(scale, origin: Date, end: Date): Promise<Object>{
+    let dateOrigin: string;
+    let dateEnd: string;
+    if (scale == 'mois'){
+        dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
+        dateEnd = end.getMonth() + ' ' + end.getFullYear();
+    }
+    else if (scale == 'jours') {
+        dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
+        dateEnd =  origin.getDate() + ' ' + end.getMonth() + ' ' + end.getFullYear();
+    }
+
     return Promise.resolve(DATALINEGRAPH);
 }
 
-getDataColumnGraph(): Promise<Object>{
+getDataGraphActivePlayersByEmpire(scale, origin: Date): Promise<Object>{
+    let dateOrigin: string;
+    let dateEnd: string;
+    if (scale == 'mois'){
+        dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
+        origin.setMonth(origin.getMonth()+1);
+        dateEnd = origin.getMonth() + ' ' + origin.getFullYear();
+    }
+    else if (scale == 'jours') {
+        dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
+        origin.setDate(origin.getDate()+1);
+        dateEnd =  origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
+    }
+
     return Promise.resolve(DATACOLUMNGRAPH);
 }
 
-getListJoueursActifsByEmpire(empire: string): Promise<PlayerList[]>{
+getListActivePlayersByEmpire(empire: string): Promise<PlayerList[]>{
     return Promise.resolve(DATAACTIFSBYEMPIRE);
 }
 
-getListJoueursActifsByDate(date: string): Promise<PlayerList[]>{
+getListActivePlayersByDate(date: string): Promise<PlayerList[]>{
     return Promise.resolve(DATAACTIFS);
 }
 

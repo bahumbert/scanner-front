@@ -33,3 +33,7 @@
     margin-top: 5px;
     margin-left: 3px;
 }
+
+hr {
+    border: 2px solid #eee;
+}

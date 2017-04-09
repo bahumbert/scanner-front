@@ -30,3 +30,8 @@
     margin-top: 5px;
     margin-left: 3px;
 }
+
+.vcenter{
+    display: table-cell;
+    vertical-align: middle;
+  }

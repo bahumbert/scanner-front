@@ -18,29 +18,44 @@ export class GeneralGraphComponent implements OnInit {
     dataSourceBars: Object;
     dataLine:Object;
     dataColumn: Object;
-    filterField: string = "";
+
     title: string;
-    rowsOnPage = 500;
+
     tableData: Array<PlayerList>;
-    sortOrder: string = 'asc';
-    sortBy: string = 'player';
+    rowsOnPageGraph = 500;
+    sortOrderGraph: string = 'asc';
+    sortByGraph: string = 'player';
+    filterQueryGraph: string = '';
+    filterFieldGraph: string = "player";
+
     showEmpire: boolean = true;
     showTable: boolean = false;
-    echelleLine: string = 'mois';
-    echelleColumn: string = 'mois précedent';
+    scaleByDate: string = 'mois';
+    scaleByEmpire: string = 'mois précédent';
     yAxisName: string = "Nombre de joueurs actifs";
+    originXAxisByDate: Date;
+    originXAxisByEmpire: Date;
+    endXAxisByDate: Date;
+
     viewIsLoad: boolean = false;
     tableIsLoad: boolean = false;
+
     selectedLineValue: string = "";
     selectedColumnValue: string = "";
     selectedLineId: string;
     selectedLineJoueur: string;
-    captionLine: string = "Nombre de joueurs actifs par "+this.echelleLine;
-    captionColumn: string = "Joueurs actifs par empire, lors du "+this.echelleColumn;
+    captionByDate: string = "Nombre de joueurs actifs par "+this.scaleByDate;
+    captionByEmpire: string = "Joueurs actifs par empire, lors du "+this.scaleByEmpire;
 
-    @ViewChild('modalSelection') modal: any;
+    @ViewChild('modalSelection2') modal: any;
 
     constructor(private playerListService: PlayerListService, private graphConfigService: GraphConfigService) {
+        let d = new Date();
+        let d2 = new Date(d.setMonth(d.getMonth()-1));
+        this.endXAxisByDate = d2;
+        d.setMonth(d.getMonth()-10);
+        this.originXAxisByDate = d;
+        this.originXAxisByEmpire = d2;
     }
 
     ngOnInit() {
@@ -49,12 +64,12 @@ export class GeneralGraphComponent implements OnInit {
 
     getDataGraphs(){
         let that = this;
-        this.playerListService.getDataLineGraph().then(function(list){
+        this.playerListService.getDataGraphActivePlayersByDate(this.scaleByDate, this.originXAxisByDate, this.endXAxisByDate).then(function(list){
             that.dataLine = list;
             that.checkViewIsLoad();
         });
 
-        this.playerListService.getDataColumnGraph().then(function(list){
+        this.playerListService.getDataGraphActivePlayersByEmpire(this.scaleByEmpire, this.originXAxisByEmpire).then(function(list){
             that.dataColumn = list;
             that.checkViewIsLoad();
         });
@@ -63,25 +78,25 @@ export class GeneralGraphComponent implements OnInit {
     checkViewIsLoad(){
         if (!this.viewIsLoad && this.dataLine != null && this.dataColumn != null){
             this.dataSource = {
-                "chart": this.graphConfigService.getConfLineGraph(this.captionLine, this.echelleLine, this.yAxisName),
+                "chart": this.graphConfigService.getConfLineGraph(this.captionByDate, this.scaleByDate, this.yAxisName),
                 "data": this.dataLine,
             };
 
             this.dataSourceBars = {
-                "chart": this.graphConfigService.getConfColumnGraph(this.captionColumn, this.echelleColumn, this.yAxisName),
+                "chart": this.graphConfigService.getConfColumnGraph(this.captionByEmpire, this.scaleByEmpire, this.yAxisName),
                 "data": this.dataColumn,
             };
             this.viewIsLoad = true;
         }
     }
 
-    selectedLine() {
+    selectedActivesByDate() {
        var that = this;
        return (eve, arg) => {
            that.selectedLineValue = arg.categoryLabel;
            that.selectedColumnValue = "";
            that.tableIsLoad = false;
-           this.playerListService.getListJoueursActifsByDate(arg.categoryLabel).then(function(list) {
+           this.playerListService.getListActivePlayersByDate(arg.categoryLabel).then(function(list) {
                 that.tableData = list;
                 that.tableIsLoad = true;
            });
@@ -90,27 +105,28 @@ export class GeneralGraphComponent implements OnInit {
        }
    }
 
-   seletedColumn(){
+   seletedActivesByEmpire(){
        var that = this;
        return (eve, arg) => {
            that.selectedColumnValue = arg.categoryLabel;
            that.selectedLineValue = "";
            that.showEmpire = false;
            that.tableIsLoad = false;
-           that.playerListService.getListJoueursActifsByEmpire(arg.categoryLabel).then(function(list){
+           that.playerListService.getListActivePlayersByEmpire(arg.categoryLabel).then(function(list){
                that.tableData = list;
                that.tableIsLoad = true;
+               that.filterFieldGraph = 'player';
            });
            that.showTable = true;
        }
    }
 
    eventsLine = {
-          dataPlotClick: this.selectedLine()
+          dataPlotClick: this.selectedActivesByDate()
       }
 
   eventsColumn = {
-         dataPlotClick: this.seletedColumn()
+         dataPlotClick: this.seletedActivesByEmpire()
      }
 
      modalSelectionOpen(item: PlayerList){

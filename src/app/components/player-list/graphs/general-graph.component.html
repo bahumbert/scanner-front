@@ -5,6 +5,9 @@
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
     <div class="col-xs-12 col-lg-6">
+        <input type="radio" id="graph-by-date-radio-1" name="scaleGraphByDate" [(ngModel)]="scaleByDate" value="mois"/> <label for="graph-by-date-radio-1">Par mois</label><strong> ou </strong>
+        <input type="radio" id="graph-by-date-radio-2" name="scaleGraphByDate" [(ngModel)]="scaleByDate" value="jours"/> <label for="graph-by-date-radio-2">Jours</label>
+        <input type="text" class="datepicker">
         <fusioncharts
             width="640"
             height="350"
@@ -21,6 +24,8 @@
     </div>
     <div class="col-xs-12 col-lg-6">
         <span class="pull-right">
+            <input type="radio" id="graph-by-empire-radio-1" name="scaleGraphByEmpire" [(ngModel)]="scaleByEmpire" value="mois précédent"/> <label for="graph-by-empire-radio-1">Dernier mois</label><strong> ou </strong>
+            <input *ngIf="showEmpire" type="radio" id="graph-by-empire-radio-2" name="scaleGraphByEmpire" [(ngModel)]="scaleByEmpire" value="semaine précédente"/> <label for="graph-by-empire-radio-2">Dernière semaine</label>
             <fusioncharts
                 width="640"
                 height="350"
@@ -35,34 +40,38 @@
         </span>
     </div>
 </div>
-<table *ngIf="showTable" class="table table-striped table-hover table-select" [mfData]="tableData | dataFilter : filterQuery : filterField" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+<table *ngIf="showTable" class="table table-striped table-hover table-select" [mfData]="tableData | dataFilter : filterQueryGraph : filterFieldGraph" #mf2="mfDataTable" [mfRowsOnPage]="rowsOnPageGraph" [(mfSortBy)]="sortByGraph" [(mfSortOrder)]="sortOrderGraph">
     <div class='chargement text-center' *ngIf="!tableIsLoad">
         <h2>Chargement</h2>
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
     <thead>
         <tr>
-               <td><input id="filter-field" class="form-control input-33" [(ngModel)]="filterQuery" placeholder="Filtrer"/></td>
-               <td class="vcenter td-radio"><input type="radio" id="filter-radio-1" name="filterField" [(ngModel)]="filterField" value="joueur"/> <label for="filter-radio-1">Joueur</label><strong *ngIf="showEmpire"> ou </strong>
-               <input *ngIf="showEmpire" type="radio" id="filter-radio-2" name="filterField" [(ngModel)]="filterField" value="empire"/> <label *ngIf="showEmpire" for="filter-radio-2">Empire</label></td>
+           <td>
+               <input id="filter-field-graph" class="form-control" [(ngModel)]="filterQueryGraph" placeholder="Filtrer"/>
+           </td>
+           <td class="vcenter td-radio">
+               <input type="radio" id="filter-radio-3" name="filterFieldGraph" [(ngModel)]="filterFieldGraph" value="player"/> <label for="filter-radio-3">Joueur</label><strong *ngIf="showEmpire"> ou </strong>
+               <input *ngIf="showEmpire" type="radio" id="filter-radio-4" name="filterFieldGraph" [(ngModel)]="filterFieldGraph" value="empire"/> <label *ngIf="showEmpire" for="filter-radio-4">Empire</label>
+           </td>
        </tr>
     <tr>
         <th style="width: 10%">
             <mfDefaultSorter by="id">Id</mfDefaultSorter>
         </th>
         <th style="width: 30%">
-            <mfDefaultSorter by="joueur">Joueur</mfDefaultSorter>
+            <mfDefaultSorter by="player">Joueur</mfDefaultSorter>
         </th>
         <th style="width: 30%" *ngIf="showEmpire">
             <mfDefaultSorter by="empire">Empire</mfDefaultSorter>
         </th>
         <th style="width: 30%">
-            <mfDefaultSorter by="connexion">Dernière connexion</mfDefaultSorter>
+            <mfDefaultSorter by="connection">Dernière connexion</mfDefaultSorter>
         </th>
     </tr>
     </thead>
     <tbody>
-    <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf.data" (click)="modalSelectionOpen(item)">
+    <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf2.data" (click)="modalSelectionOpen(item)">
         <td>{{item.id}}</td>
         <td>{{item.player}}</td>
         <td *ngIf="showEmpire"><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.empire}}</td>
@@ -72,7 +81,7 @@
 </table>
 
 
-<modal #modalSelection>
+<modal #modalSelection2>
     <modal-header>
         <h1>Vous avez cliqué sur la ligne de <small><strong>{{selectedLineJoueur}} ({{selectedLineId}})</strong></small>, que voulez-vous faire ?</h1>
     </modal-header>
@@ -82,6 +91,6 @@
         <div class="row row-button"><button class="btn btn-warning" routerLink="" (click)="modalSelectionClose()"><i class="fa fa-bank"></i></button> <strong>Consulter les statistiques de son empire sur le scanner</strong></div>
     </modal-content>
     <modal-footer>
-        <button class="btn btn-secondary" (click)="modalSelection.close()">Annuler</button>
+        <button class="btn btn-secondary" (click)="modalSelection2.close()">Annuler</button>
     </modal-footer>
 </modal>

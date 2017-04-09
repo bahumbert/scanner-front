@@ -5,22 +5,26 @@
     </div>
     <thead>
         <tr>
-               <td><input id="filter-field" class="form-control input-33" [(ngModel)]="filterQuery" placeholder="Filtrer"/></td>
-               <td class="vcenter td-radio"><input type="radio" id="filter-radio-1" name="filterField" [(ngModel)]="filterField" value="joueur"/> <label for="filter-radio-1">Joueur</label><strong> ou </strong>
-               <input type="radio" id="filter-radio-2" name="filterField" [(ngModel)]="filterField" value="empire"/> <label for="filter-radio-2">Empire</label></td>
+            <td>
+               <input id="filter-field" class="form-control" [(ngModel)]="filterQuery" placeholder="Filtrer"/>
+           </td>
+            <td class="vcenter td-radio">
+               <input type="radio" id="filter-radio-1" name="filterField" [(ngModel)]="filterField" value="player"/> <label for="filter-radio-1">Joueur</label><strong> ou </strong>
+               <input type="radio" id="filter-radio-2" name="filterField" [(ngModel)]="filterField" value="empire"/> <label for="filter-radio-2">Empire</label>
+           </td>
        </tr>
     <tr>
         <th style="width: 10%">
             <mfDefaultSorter by="id">Id</mfDefaultSorter>
         </th>
         <th style="width: 30%">
-            <mfDefaultSorter by="joueur">Joueur</mfDefaultSorter>
+            <mfDefaultSorter by="player">Joueur</mfDefaultSorter>
         </th>
         <th style="width: 30%">
             <mfDefaultSorter by="empire">Empire</mfDefaultSorter>
         </th>
         <th style="width: 30%">
-            <mfDefaultSorter by="connexion">Connexion</mfDefaultSorter>
+            <mfDefaultSorter by="connection">Connexion</mfDefaultSorter>
         </th>
     </tr>
     </thead>
