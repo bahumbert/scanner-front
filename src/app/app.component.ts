@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'Scanner Hazeron version 2';
+  title = 'Scanner Hazeron 2.0';
 }

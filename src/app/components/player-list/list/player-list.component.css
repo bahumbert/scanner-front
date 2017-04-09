@@ -27,3 +27,7 @@
 .table-select tbody tr {
     cursor: pointer;
 }
+
+.row-button{
+    margin-top: 5px;
+}

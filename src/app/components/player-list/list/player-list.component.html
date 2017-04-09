@@ -5,18 +5,18 @@
     </div>
     <thead>
         <tr>
-               <td><label for="filter-field">Filtrer:</label><input id="filter-field" class="form-control input-33" [(ngModel)]="filterQuery"/></td>
-               <td class="vcenter td-radio"><input type="radio" id="filter-radio-1" name="filterField" [(ngModel)]="filterField" value="joueur"/> <label for="filter-radio-1">Joueur</label>
+               <td><input id="filter-field" class="form-control input-33" [(ngModel)]="filterQuery" placeholder="Filtrer"/></td>
+               <td class="vcenter td-radio"><input type="radio" id="filter-radio-1" name="filterField" [(ngModel)]="filterField" value="joueur"/> <label for="filter-radio-1">Joueur</label><strong> ou </strong>
                <input type="radio" id="filter-radio-2" name="filterField" [(ngModel)]="filterField" value="empire"/> <label for="filter-radio-2">Empire</label></td>
        </tr>
     <tr>
-        <th style="width: 20%">
+        <th style="width: 10%">
             <mfDefaultSorter by="id">Id</mfDefaultSorter>
         </th>
         <th style="width: 30%">
             <mfDefaultSorter by="joueur">Joueur</mfDefaultSorter>
         </th>
-        <th style="width: 20%">
+        <th style="width: 30%">
             <mfDefaultSorter by="empire">Empire</mfDefaultSorter>
         </th>
         <th style="width: 30%">
@@ -25,11 +25,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr class='tr-table' *ngFor="let item of mf.data" (click)="modalSelectionOpen(item)">
+    <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf.data" (click)="modalSelectionOpen(item)">
         <td>{{item.id}}</td>
-        <td>{{item.joueur}}</td>
-        <td><img class="image-empire" src="{{item.urlImageEmpire}}"> {{item.empire}}</td>
-        <td>{{item.connexion}}</td>
+        <td>{{item.player}}</td>
+        <td><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.empire}}</td>
+        <td>{{item.connection}}</td>
     </tr>
     </tbody>
 </table>
@@ -39,9 +39,9 @@
         <h1>Vous avez cliqué sur la ligne de <small><strong>{{selectedLineJoueur}} ({{selectedLineId}})</strong></small>, que voulez-vous faire ?</h1>
     </modal-header>
     <modal-content>
-        <button class="btn btn-primary" (click)="modalSelectionClose('statsHazeron')">Consulter ses statistiques sur hazeron.com</button>
-        <button class="btn btn-success" routerLink="" (click)="modalSelectionClose()">Consulter ses statistiques sur le scanner</button>
-        <button class="btn btn-warning" routerLink="" (click)="modalSelectionClose()">Consulter les statistiques de son empire sur le scanner</button>
+        <div class="row row-button"><button class="btn btn-primary" (click)="modalSelectionClose('statsHazeron')"><i class="fa fa-address-card"></i></button> <strong>Consulter ses statistiques sur hazeron.com</strong></div>
+        <div class="row row-button"><button class="btn btn-success" routerLink="" (click)="modalSelectionClose()"><i class="fa fa-bar-chart"></i></button> <strong>Consulter ses statistiques sur le scanner</strong></div>
+        <div class="row row-button"><button class="btn btn-warning" routerLink="" (click)="modalSelectionClose()"><i class="fa fa-bank"></i></button> <strong>Consulter les statistiques de son empire sur le scanner</strong></div>
     </modal-content>
     <modal-footer>
         <button class="btn btn-secondary" (click)="modalSelection.close()">Annuler</button>

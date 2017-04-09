@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ListeJoueurs } from '../../model/liste-joueurs'
-import { ListeJoueursService } from '../../services/liste-joueurs-service'
+import { PlayerList } from '../../../model/player-list'
+import { PlayerListService } from '../../../services/player-list-service'
 
 import {ViewChild}  from '@angular/core';
 
 @Component({
-  selector: 'app-list-joueurs',
-  templateUrl: './list-joueurs.component.html',
-  styleUrls: ['./list-joueurs.component.css']
+  selector: 'app-player-list',
+  templateUrl: './player-list.component.html',
+  styleUrls: ['./player-list.component.css']
 })
 
-export class ListJoueursComponent implements OnInit {
+export class PlayerListComponent implements OnInit {
 
     viewIsLoad: boolean = false;
 
-    data: Array<ListeJoueurs>;
+    data: Array<PlayerList>;
     rowsOnPage: number = 500;
     filterQuery = "";
     sortBy = "joueur";
@@ -28,7 +28,7 @@ export class ListJoueursComponent implements OnInit {
 
     @ViewChild('modalSelection') modal: any;
 
-    constructor(private listeJoueursService: ListeJoueursService) { }
+    constructor(private playerListService: PlayerListService) { }
 
     ngOnInit() {
         this.getListe();
@@ -36,16 +36,16 @@ export class ListJoueursComponent implements OnInit {
 
     getListe(){
         let that = this;
-        this.listeJoueursService.getListJoueurs().then(function(liste){
-            that.data = liste;
+        this.playerListService.getListJoueurs().then(function(list){
+            that.data = list;
             that.viewIsLoad = true;
         });
     }
 
-    modalSelectionOpen(item: ListeJoueurs){
+    modalSelectionOpen(item: PlayerList){
 
         this.selectedLineId = item.id;
-        this.selectedLineJoueur = item.joueur;
+        this.selectedLineJoueur = item.player;
 
         this.modal.open();
     }
