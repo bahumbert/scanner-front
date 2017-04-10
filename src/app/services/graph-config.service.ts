@@ -12,7 +12,7 @@ export class GraphConfigService{
 
     getConfLineGraph(caption: string, echelle: string, yAxisName: string){
         return {
-            "caption": caption,
+            //"caption": caption,
             "subCaption": "Cliquez sur un point pour voir la liste",
             "drawCrossLine": "1",
             "crossLineColor": "#0d0d0d",
@@ -35,6 +35,7 @@ export class GraphConfigService{
             "xAxisLineThickness": "1",
             "xAxisLineColor": "#999999",
             "showAlternateHGridColor": "0",
+            "showborder": "0",
             "connectNullData": "0",
             /*"rotateLabels": "1",
             "slantLabels": "1",*/
@@ -45,7 +46,7 @@ export class GraphConfigService{
 
     getConfColumnGraph(caption: string, echelle: string, yAxisName: string){
         return {
-                "caption": caption,
+                //"caption": caption,
                 "subCaption": "Cliquez sur un point pour voir la liste",
                 //"drawCrossLine": "1",
                 //"crossLineColor": "#0d0d0d",
@@ -70,10 +71,27 @@ export class GraphConfigService{
                 "xAxisLineColor": "#999999",
                 "showAlternateHGridColor": "0",
                 "connectNullData": "0",
+                "showborder": "0",
                 /*"rotateLabels": "1",
                 "slantLabels": "1",*/
                 "loadMessage": "Chargement...",
                 "loadMessageColor": "#000000"
         }
+    }
+
+    getTrendLine(value, name){
+        return [{
+            "line": [{
+                    "startvalue": value,
+                    "endvalue": "",
+                    "istrendzone": "",
+                    "valueonright": "1",
+                    "color": "fda813",
+                    "displayvalue": name,
+                    "showontop": "1",
+                    "thickness": "2",
+                    "origText": name,
+                }],
+            }];
     }
 }

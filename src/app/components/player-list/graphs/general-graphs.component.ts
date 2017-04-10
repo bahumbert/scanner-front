@@ -37,7 +37,8 @@ export class GeneralGraphComponent implements OnInit {
     originXAxisByEmpire: Date;
     endXAxisByDate: Date;
 
-    viewIsLoad: boolean = false;
+    byDateIsLoad: boolean = false;
+    byEmpireIsLoad: boolean = false;
     tableIsLoad: boolean = false;
 
     selectedLineValue: string = "";
@@ -62,32 +63,52 @@ export class GeneralGraphComponent implements OnInit {
         this.getDataGraphs();
     }
 
-    getDataGraphs(){
+    reloadByDateGraph(){
+        this.captionByDate = "Nombre de joueurs actifs par "+this.scaleByDate;
+        this.byDateIsLoad = false;
+        this.getByDateGraph();
+    }
+
+    reloadByEmpireGraph(){
+        if (this.scaleByEmpire == 'mois précédent'){
+            this.captionByEmpire = "Joueurs actifs par empire, lors du "+this.scaleByEmpire;
+        }
+        else if (this.scaleByEmpire == 'semaine précédente'){
+            this.captionByEmpire = "Joueurs actifs par empire, lors de la "+this.scaleByEmpire;
+        }
+        this.byEmpireIsLoad = false;
+        this.getByEmpireGraph();
+    }
+
+    getByDateGraph(){
         let that = this;
         this.playerListService.getDataGraphActivePlayersByDate(this.scaleByDate, this.originXAxisByDate, this.endXAxisByDate).then(function(list){
             that.dataLine = list;
-            that.checkViewIsLoad();
-        });
+            that.dataSource = {
+                "chart": that.graphConfigService.getConfLineGraph(that.captionByDate, that.scaleByDate, that.yAxisName),
+                "data": that.dataLine,
+                //"trendlines": that.graphConfigService.getTrendLine(220,"Moyenne"),
+            };
+            that.byDateIsLoad = true;
 
-        this.playerListService.getDataGraphActivePlayersByEmpire(this.scaleByEmpire, this.originXAxisByEmpire).then(function(list){
-            that.dataColumn = list;
-            that.checkViewIsLoad();
         });
     }
 
-    checkViewIsLoad(){
-        if (!this.viewIsLoad && this.dataLine != null && this.dataColumn != null){
-            this.dataSource = {
-                "chart": this.graphConfigService.getConfLineGraph(this.captionByDate, this.scaleByDate, this.yAxisName),
-                "data": this.dataLine,
+    getByEmpireGraph(){
+        let that = this;
+        this.playerListService.getDataGraphActivePlayersByEmpire(this.scaleByEmpire, this.originXAxisByEmpire).then(function(list){
+            that.dataColumn = list;
+            that.dataSourceBars = {
+                "chart": that.graphConfigService.getConfColumnGraph(that.captionByEmpire, that.scaleByEmpire, that.yAxisName),
+                "data": that.dataColumn,
             };
+            that.byEmpireIsLoad = true;
+        });
+    }
 
-            this.dataSourceBars = {
-                "chart": this.graphConfigService.getConfColumnGraph(this.captionByEmpire, this.scaleByEmpire, this.yAxisName),
-                "data": this.dataColumn,
-            };
-            this.viewIsLoad = true;
-        }
+    getDataGraphs(){
+        this.getByDateGraph();
+        this.getByEmpireGraph();
     }
 
     selectedActivesByDate() {
