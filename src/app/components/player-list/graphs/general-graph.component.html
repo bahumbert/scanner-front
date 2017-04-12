@@ -1,7 +1,7 @@
 
 <div class="row">
-    <div class="col-xs-12 col-lg-6">
-        <div class="panel panel-default relative-div">
+    <div class="col-md-12 col-lg-6">
+        <div class="panel panel-green relative-div">
             <div class='chargement text-center' *ngIf="!byDateIsLoad">
                 <h2>Chargement</h2>
                 <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <fusioncharts
-                    width="640"
+                    width="100%"
                     height="350"
                     type="line"
                     dataFormat="JSON"
@@ -37,8 +37,8 @@
             <!-- jsonurl avec dataSource="url/.." -->
         </div>
     </div>
-    <div class="col-xs-12 col-lg-6">
-        <div class="panel panel-default relative-div">
+    <div class="col-md-12 col-lg-6">
+        <div class="panel panel-red relative-div">
             <div class='chargement text-center' *ngIf="!byEmpireIsLoad">
                 <h2>Chargement</h2>
                 <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <fusioncharts
-                    width="640"
+                    width="100%"
                     height="350"
                     type="column2d"
                     dataFormat="JSON"
@@ -72,53 +72,55 @@
 </div>
 <div class="row" *ngIf="showTable" >
     <div class="col-xs-12">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <span *ngIf="selectedLineValue">Liste des joueurs actifs, {{selectedLineValue}}</span>
-                <span *ngIf="selectedColumnValue">Liste des joueurs actifs du {{selectedColumnValue}}</span>
+                <span *ngIf="selectedColumnValue">Liste des joueurs actifs du {{selectedColumnValue}}, {{scaleByEmpire}}</span>
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-2">
+                    <div class="col-lg-2 col-sm-3">
                         <input id="filter-field-graph" class="form-control" [(ngModel)]="filterQueryGraph" placeholder="Filtrer"/>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-lg-2 col-sm-3">
                         <select id="filter-point-data" [(ngModel)]="filterFieldGraph" class="form-control input-md">
                             <option value="player">Joueur</option>
                             <option value="empire">Empire</option>
                         </select>
                     </div>
                 </div>
-                <table class="table table-striped table-hover table-bordered table-select relative-div" [mfData]="tableData | dataFilter : filterQueryGraph : filterFieldGraph" #mf2="mfDataTable" [mfRowsOnPage]="rowsOnPageGraph" [(mfSortBy)]="sortByGraph" [(mfSortOrder)]="sortOrderGraph">
-                    <div class='chargement text-center' *ngIf="!tableIsLoad">
-                        <h2>Chargement</h2>
-                        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-                    </div>
-                    <thead>
-                    <tr>
-                        <th style="width: 10%">
-                            <mfDefaultSorter by="id">Id</mfDefaultSorter>
-                        </th>
-                        <th style="width: 30%">
-                            <mfDefaultSorter by="player">Joueur</mfDefaultSorter>
-                        </th>
-                        <th style="width: 30%" *ngIf="showEmpire">
-                            <mfDefaultSorter by="empire">Empire</mfDefaultSorter>
-                        </th>
-                        <th style="width: 30%">
-                            <mfDefaultSorter by="connection">Dernière connexion</mfDefaultSorter>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf2.data" (click)="modalSelectionOpen(item)">
-                        <td>{{item.id}}</td>
-                        <td>{{item.player}}</td>
-                        <td *ngIf="showEmpire"><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.empire}}</td>
-                        <td>{{item.connection}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="row" style="overflow-x:auto;">
+                    <table class="table table-striped table-hover table-bordered table-select relative-div" [mfData]="tableData | dataFilter : filterQueryGraph : filterFieldGraph" #mf2="mfDataTable" [mfRowsOnPage]="rowsOnPageGraph" [(mfSortBy)]="sortByGraph" [(mfSortOrder)]="sortOrderGraph">
+                        <div class='chargement text-center' *ngIf="!tableIsLoad">
+                            <h2>Chargement</h2>
+                            <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                        </div>
+                        <thead>
+                        <tr>
+                            <th style="width: 10%">
+                                <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                            </th>
+                            <th style="width: 30%">
+                                <mfDefaultSorter by="player">Joueur</mfDefaultSorter>
+                            </th>
+                            <th style="width: 30%" *ngIf="showEmpire">
+                                <mfDefaultSorter by="empire">Empire</mfDefaultSorter>
+                            </th>
+                            <th style="width: 30%">
+                                <mfDefaultSorter by="connection">Dernière connexion</mfDefaultSorter>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf2.data" (click)="modalSelectionOpen(item)">
+                            <td>{{item.id}}</td>
+                            <td>{{item.player}}</td>
+                            <td *ngIf="showEmpire"><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.empire}}</td>
+                            <td>{{item.connection}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -129,7 +131,7 @@
         <h1>Vous avez cliqué sur la ligne de <small><strong>{{selectedLineJoueur}} ({{selectedLineId}})</strong></small>, que voulez-vous faire ?</h1>
     </modal-header>
     <modal-content>
-        <div class="row row-button"><button class="btn btn-primary" (click)="modalSelectionClose('statsHazeron')"><i class="fa fa-address-card"></i></button> <strong>Consulter ses statistiques sur hazeron.com</strong></div>
+        <div class="row row-button"><button class="btn btn-primary" (click)="modalSelectionClose('statsHazeron')"><i class="fa fa-address-card"></i></button> <strong>Consulter son profil sur hazeron.com</strong></div>
         <div class="row row-button"><button class="btn btn-success" routerLink="" (click)="modalSelectionClose()"><i class="fa fa-bar-chart"></i></button> <strong>Consulter ses statistiques sur le scanner</strong></div>
         <div class="row row-button"><button class="btn btn-warning" routerLink="" (click)="modalSelectionClose()"><i class="fa fa-bank"></i></button> <strong>Consulter les statistiques de son empire sur le scanner</strong></div>
     </modal-content>
