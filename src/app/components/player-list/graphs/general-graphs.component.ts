@@ -5,6 +5,7 @@ import { PlayerListService } from '../../../services/player-list-service';
 import { GraphConfigService } from '../../../services/graph-config.service';
 
 import {ViewChild}  from '@angular/core';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-general-graph',
@@ -50,7 +51,7 @@ export class GeneralGraphComponent implements OnInit {
 
     @ViewChild('modalSelection2') modal: any;
 
-    constructor(private playerListService: PlayerListService, private graphConfigService: GraphConfigService) {
+    constructor(private playerListService: PlayerListService, private graphConfigService: GraphConfigService, private notificationsService: NotificationsService) {
         let d = new Date();
         let d2 = new Date(d.setMonth(d.getMonth()-1));
         this.endXAxisByDate = d2;
@@ -82,7 +83,8 @@ export class GeneralGraphComponent implements OnInit {
 
     getByDateGraph(){
         let that = this;
-        this.playerListService.getDataGraphActivePlayersByDate(this.scaleByDate, this.originXAxisByDate, this.endXAxisByDate).then(function(list){
+        this.playerListService.getDataGraphActivePlayersByDate(this.scaleByDate, this.originXAxisByDate, this.endXAxisByDate).subscribe(
+        list => {
             that.dataLine = list;
             that.dataSource = {
                 "chart": that.graphConfigService.getConfLineGraph(that.captionByDate, that.scaleByDate, that.yAxisName),
@@ -91,18 +93,25 @@ export class GeneralGraphComponent implements OnInit {
             };
             that.byDateIsLoad = true;
 
+        },
+        error => {
+            this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
         });
     }
 
     getByEmpireGraph(){
         let that = this;
-        this.playerListService.getDataGraphActivePlayersByEmpire(this.scaleByEmpire, this.originXAxisByEmpire).then(function(list){
+        this.playerListService.getDataGraphActivePlayersByEmpire(this.scaleByEmpire, this.originXAxisByEmpire).subscribe(
+        list => {
             that.dataColumn = list;
             that.dataSourceBars = {
                 "chart": that.graphConfigService.getConfColumnGraph(that.captionByEmpire, that.scaleByEmpire, that.yAxisName),
                 "data": that.dataColumn,
             };
             that.byEmpireIsLoad = true;
+        },
+        error => {
+            this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
         });
     }
 
@@ -117,9 +126,13 @@ export class GeneralGraphComponent implements OnInit {
            that.selectedLineValue = arg.categoryLabel;
            that.selectedColumnValue = "";
            that.tableIsLoad = false;
-           this.playerListService.getListActivePlayersByDate(arg.categoryLabel).then(function(list) {
+           this.playerListService.getListActivePlayersByDate(arg.categoryLabel).subscribe(
+           list => {
                 that.tableData = list;
                 that.tableIsLoad = true;
+           },
+           error => {
+               this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
            });
            that.showEmpire = true;
            that.showTable = true;
@@ -133,10 +146,14 @@ export class GeneralGraphComponent implements OnInit {
            that.selectedLineValue = "";
            that.showEmpire = false;
            that.tableIsLoad = false;
-           that.playerListService.getListActivePlayersByEmpire(arg.categoryLabel).then(function(list){
+           that.playerListService.getListActivePlayersByEmpire(arg.categoryLabel).subscribe(
+           list => {
                that.tableData = list;
                that.tableIsLoad = true;
                that.filterFieldGraph = 'player';
+           },
+           error => {
+               this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
            });
            that.showTable = true;
        }

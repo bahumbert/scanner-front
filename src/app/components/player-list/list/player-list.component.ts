@@ -4,6 +4,7 @@ import { PlayerList } from '../../../model/player-list'
 import { PlayerListService } from '../../../services/player-list-service'
 
 import {ViewChild}  from '@angular/core';
+import {NotificationsService} from 'angular2-notifications';
 
 @Component({
   selector: 'app-player-list',
@@ -28,7 +29,7 @@ export class PlayerListComponent implements OnInit {
 
     @ViewChild('modalSelection') modal: any;
 
-    constructor(private playerListService: PlayerListService) { }
+    constructor(private playerListService: PlayerListService, private notificationsService: NotificationsService) { }
 
     ngOnInit() {
         this.getListe();
@@ -36,10 +37,19 @@ export class PlayerListComponent implements OnInit {
 
     getListe(){
         let that = this;
-        this.playerListService.getListJoueurs().then(function(list){
+        this.playerListService.getListJoueurs().subscribe(
+            playerList => {
+                this.data = playerList;
+                that.viewIsLoad = true;
+            },
+            error => {
+                this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
+            }
+        )
+        /*this.playerListService.getListJoueurs().then(function(list){
             that.data = list;
             that.viewIsLoad = true;
-        });
+        });*/
     }
 
     modalSelectionOpen(item: PlayerList){

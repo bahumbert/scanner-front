@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Scanner Hazeron 2.0';
+  options = {
+    position: ['top', 'right'],
+    maxStack: 3,
+    timeOut: 4000,
+    showProgressBar: true
+  };
 }

@@ -15,14 +15,15 @@ import { ModalModule } from 'ngx-modal'
 import { FusionChartsModule } from 'angular2-fusioncharts';
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { PlayerListService } from './services/player-list-service';
 import { UrlService } from './services/url-service';
 import { GraphConfigService } from './services/graph-config.service';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { MockDb }  from './mock/mock-db';
-
+import { MockDbListeJoueurs }  from './mock/mock-db-liste-joueurs';
 
 @NgModule({
   declarations: [
@@ -38,9 +39,11 @@ import { MockDb }  from './mock/mock-db';
     HttpModule,
     AppRoutingModule,
     DataTableModule,
-    InMemoryWebApiModule.forRoot(MockDb, {delay: 1000}),
+    InMemoryWebApiModule.forRoot(MockDbListeJoueurs, {delay: 1000}),
     ModalModule,
     FusionChartsModule.forRoot(FusionCharts, Charts),
+    MyDateRangePickerModule,
+    SimpleNotificationsModule.forRoot(),
   ],
   providers: [PlayerListService, UrlService, GraphConfigService],
   bootstrap: [AppComponent]

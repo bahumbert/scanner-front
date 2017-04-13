@@ -6,7 +6,7 @@ import { PlayerListComponent } from './components/player-list/list/player-list.c
 export const routes: Routes = [
     { path: '', redirectTo: 'player-list', pathMatch: 'full' },
     { path: 'player-list', component: PlayerListComponent },
-    { path: '**', redirectTo: 'player-list', pathMatch: 'full' },
+    /*{ path: '**', redirectTo: 'player-list', pathMatch: 'full' },*/
 ]
 
 @NgModule({

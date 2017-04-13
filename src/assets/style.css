@@ -14,6 +14,10 @@
     width:30px;
 }
 
+.simple-notification-wrapper{
+    z-index: 2000 !important;
+}
+
 .relative-div{
     position: relative;
 }

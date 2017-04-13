@@ -1,70 +1,85 @@
-import { PlayerList } from '../model/player-list'
+import { PlayerList } from '../model/player-list';
+import {GraphData } from '../model/graph-data';
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
+import {Observable} from 'rxjs/Observable';
 
 import { UrlService } from './url-service';
-
-import { DATALINEGRAPH } from '../mock/data-line-graph';
-import { DATACOLUMNGRAPH } from '../mock/data-column-graph';
-import { DATAACTIFSBYEMPIRE } from '../mock/data-actifs-by-empire';
-import { DATAACTIFS } from '../mock/data-actifs';
 
 @Injectable()
 export class PlayerListService {
 
-    constructor(private http: Http, private urlService: UrlService) { }
+constructor(private http: Http, private urlService: UrlService) { }
 
-    getListJoueurs(): Promise<PlayerList[]> {
+/*getListJoueurs(): Promise<PlayerList[]> {
 
-        return this.http.get(this.urlService.getListeJoueursServiceUrl())
-                       .toPromise()
-                       .then(response => response.json().data as PlayerList[])
-                       .catch(this.handleError);
-    }
-
-/*getListJoueurs(): Observable<PlayerList[]>{
     return this.http.get(this.urlService.getListeJoueursServiceUrl())
-                    .map();
+                   .toPromise()
+                   .then(response => response.json().data as PlayerList[])
+                   .catch(this.handleError);
 }*/
 
-getDataGraphActivePlayersByDate(scale, origin: Date, end: Date): Promise<Object>{
+getListJoueurs(): Observable<Array<PlayerList>>{
+    //console.log(this.http.post('commands/resetdb', undefined));
+    return this.http.get(this.urlService.getListeJoueursServiceUrl())
+                    .map(response => response.json().data as PlayerList[])
+                    .catch(this.handleError);
+}
+
+getDataGraphActivePlayersByDate(scale, origin: Date, end: Date): Observable<Array<GraphData>>{
     let dateOrigin: string;
     let dateEnd: string;
     if (scale == 'mois'){
         dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
         dateEnd = end.getMonth() + ' ' + end.getFullYear();
+        return this.http.get(this.urlService.getDataGraphByDateMonthUrl())
+                       .map(response => response.json().data as GraphData[])
+                       .catch(this.handleError);
     }
-    else if (scale == 'jours') {
+    else if (scale == 'jour') {
         dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
         dateEnd =  origin.getDate() + ' ' + end.getMonth() + ' ' + end.getFullYear();
+        return this.http.get(this.urlService.getDataGraphByDateDayUrl())
+                       .map(response => response.json().data as GraphData[])
+                       .catch(this.handleError);
     }
 
-    return Promise.resolve(DATALINEGRAPH);
+
 }
 
-getDataGraphActivePlayersByEmpire(scale, origin: Date): Promise<Object>{
+getDataGraphActivePlayersByEmpire(scale, origin: Date): Observable<Array<GraphData>>{
     let dateOrigin: string;
     let dateEnd: string;
-    if (scale == 'mois'){
+    if (scale == 'mois précédent'){
         dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
         origin.setMonth(origin.getMonth()+1);
         dateEnd = origin.getMonth() + ' ' + origin.getFullYear();
+        return this.http.get(this.urlService.getDataGraphByEmpireMonthUrl())
+                       .map(response => response.json().data as GraphData[])
+                       .catch(this.handleError);
     }
-    else if (scale == 'jours') {
+    else if (scale == 'semaine précédente') {
         dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
         origin.setDate(origin.getDate()+1);
         dateEnd =  origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
+        return this.http.get(this.urlService.getDataGraphByEmpireWeekUrl())
+                       .map(response => response.json().data as GraphData[])
+                       .catch(this.handleError);
     }
 
-    return Promise.resolve(DATACOLUMNGRAPH);
+    //return Promise.resolve(DATACOLUMNGRAPH);
 }
 
-getListActivePlayersByEmpire(empire: string): Promise<PlayerList[]>{
-    return Promise.resolve(DATAACTIFSBYEMPIRE);
+getListActivePlayersByEmpire(empire: string): Observable<Array<PlayerList>>{
+    return this.http.get(this.urlService.getDataActifsByEmpireUrl())
+                   .map(response => response.json().data as GraphData[])
+                   .catch(this.handleError);
 }
 
-getListActivePlayersByDate(date: string): Promise<PlayerList[]>{
-    return Promise.resolve(DATAACTIFS);
+getListActivePlayersByDate(date: string): Observable<Array<PlayerList>>{
+    return this.http.get(this.urlService.getDataActifsByDateUrl())
+                   .map(response => response.json().data as GraphData[])
+                   .catch(this.handleError);
 }
 
   private handleError(error: any): Promise<any> {

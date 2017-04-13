@@ -11,13 +11,13 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-2">
+                    <div class="col-lg-3 col-sm-3">
                         <select id="filter-by-date" class="form-control input-md" [(ngModel)]="scaleByDate" (change)="reloadByDateGraph()">
                             <option value="mois">Mois</option>
                             <option value="jour">Jour</option>
                         </select>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-lg-3 col-sm-3">
                         <input type="text" class="datepicker input-md">
                     </div>
                 </div>
@@ -72,7 +72,11 @@
 </div>
 <div class="row" *ngIf="showTable" >
     <div class="col-xs-12">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary relative-div">
+            <div class='chargement text-center' *ngIf="!tableIsLoad">
+                <h2>Chargement</h2>
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+            </div>
             <div class="panel-heading">
                 <span *ngIf="selectedLineValue">Liste des joueurs actifs, {{selectedLineValue}}</span>
                 <span *ngIf="selectedColumnValue">Liste des joueurs actifs du {{selectedColumnValue}}, {{scaleByEmpire}}</span>
@@ -90,11 +94,7 @@
                     </div>
                 </div>
                 <div class="row" style="overflow-x:auto;">
-                    <table class="table table-striped table-hover table-bordered table-select relative-div" [mfData]="tableData | dataFilter : filterQueryGraph : filterFieldGraph" #mf2="mfDataTable" [mfRowsOnPage]="rowsOnPageGraph" [(mfSortBy)]="sortByGraph" [(mfSortOrder)]="sortOrderGraph">
-                        <div class='chargement text-center' *ngIf="!tableIsLoad">
-                            <h2>Chargement</h2>
-                            <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-                        </div>
+                    <table class="table table-striped table-hover table-bordered table-select" [mfData]="tableData | dataFilter : filterQueryGraph : filterFieldGraph" #mf2="mfDataTable" [mfRowsOnPage]="rowsOnPageGraph" [(mfSortBy)]="sortByGraph" [(mfSortOrder)]="sortOrderGraph">
                         <thead>
                         <tr>
                             <th style="width: 10%">
