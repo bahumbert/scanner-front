@@ -17,19 +17,19 @@ getListJoueurs(): Observable<Array<PlayerList>>{
                     .catch(this.handleError);
 }
 
-getDataGraphActivePlayersByDate(scale, origin: Date, end: Date): Observable<Array<GraphData>>{
-    let dateOrigin: string;
-    let dateEnd: string;
+getDataGraphActivePlayersByDate(scale, from: number, to: number): Observable<Array<GraphData>>{
+    //let dateOrigin: string;
+    //let dateEnd: string;
     if (scale == 'mois'){
-        dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
-        dateEnd = end.getMonth() + ' ' + end.getFullYear();
+        //dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
+        //dateEnd = end.getMonth() + ' ' + end.getFullYear();
         return this.http.get(this.urlService.getDataGraphByDateMonthUrl())
                        .map(response => response.json().data as GraphData[])
                        .catch(this.handleError);
     }
     else if (scale == 'jour') {
-        dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
-        dateEnd =  origin.getDate() + ' ' + end.getMonth() + ' ' + end.getFullYear();
+        //dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
+        //dateEnd =  origin.getDate() + ' ' + end.getMonth() + ' ' + end.getFullYear();
         return this.http.get(this.urlService.getDataGraphByDateDayUrl())
                        .map(response => response.json().data as GraphData[])
                        .catch(this.handleError);
@@ -38,23 +38,23 @@ getDataGraphActivePlayersByDate(scale, origin: Date, end: Date): Observable<Arra
 
 }
 
-getDataGraphActivePlayersByEmpire(scale, origin: Date): Observable<Array<GraphData>>{
-    let dateOrigin: string;
-    let dateEnd: string;
+getDataGraphActivePlayersByEmpire(scale, from: number, to: number): Observable<Array<GraphData>>{
+    /*let dateOrigin: string;
+    let dateEnd: string;*/
     if (scale == 'mois précédent'){
-        dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
+        /*dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
         origin.setMonth(origin.getMonth()+1);
-        dateEnd = origin.getMonth() + ' ' + origin.getFullYear();
+        dateEnd = origin.getMonth() + ' ' + origin.getFullYear();*/
 
         return this.http.get(this.urlService.getDataGraphByEmpireMonthUrl())
                        .map(response => response.json().data as GraphData[])
                        .catch(this.handleError);
     }
     else if (scale == 'semaine précédente') {
-        dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
+        /*dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
         origin.setDate(origin.getDate()+1);
         dateEnd =  origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
-
+*/
         return this.http.get(this.urlService.getDataGraphByEmpireWeekUrl())
                        .map(response => response.json().data as GraphData[])
                        .catch(this.handleError);

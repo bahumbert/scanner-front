@@ -12,13 +12,15 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-3 col-sm-3">
-                        <select id="filter-by-date" class="form-control input-md" [(ngModel)]="scaleByDate" (change)="reloadByDateGraph()">
+                        <select id="filter-by-date" class="form-control input-md" [(ngModel)]="scaleByDate">
                             <option value="mois">Mois</option>
                             <option value="jour">Jour</option>
                         </select>
                     </div>
                     <div class="col-lg-3 col-sm-3">
-                        <input type="text" class="datepicker input-md">
+                        <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                                        [(ngModel)]="model" (dateRangeChanged)="reloadByDateGraph($event)">
+                        </my-date-range-picker>
                     </div>
                 </div>
                 <fusioncharts
@@ -34,7 +36,6 @@
                     <strong>Vous avez sélectionné : {{ selectedLineValue }}</strong>
                 </p>
             </div>
-            <!-- jsonurl avec dataSource="url/.." -->
         </div>
     </div>
     <div class="col-md-12 col-lg-6">
