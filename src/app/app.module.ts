@@ -6,9 +6,10 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { DataFilterPipe }   from './components/data-filter.pipe';
+import { DataFilterPipe }   from './pipes/data-filter.pipe';
 import { PlayerListComponent } from './components/player-list/list/player-list.component';
 import { GeneralGraphComponent } from './components/player-list/graphs/general-graphs.component'
+import { PlayerDetailsComponent } from './components/player-details/player-details.component';
 
 import { DataTableModule } from 'angular2-datatable';
 import { ModalModule } from 'ngx-modal'
@@ -23,7 +24,7 @@ import { UrlService } from './services/url-service';
 import { GraphConfigService } from './services/graph-config.service';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { MockDbListeJoueurs }  from './mock/mock-db-liste-joueurs';
+import { MockWebServices }  from './mock/mock-web-services';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MockDbListeJoueurs }  from './mock/mock-db-liste-joueurs';
     NavBarComponent,
     DataFilterPipe,
     GeneralGraphComponent,
+    PlayerDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,7 @@ import { MockDbListeJoueurs }  from './mock/mock-db-liste-joueurs';
     HttpModule,
     AppRoutingModule,
     DataTableModule,
-    InMemoryWebApiModule.forRoot(MockDbListeJoueurs, {delay: 1000}),
+    InMemoryWebApiModule.forRoot(MockWebServices, {delay: 200}),
     ModalModule,
     FusionChartsModule.forRoot(FusionCharts, Charts),
     MyDateRangePickerModule,

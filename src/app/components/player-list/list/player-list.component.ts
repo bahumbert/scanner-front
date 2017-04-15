@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { PlayerList } from '../../../model/player-list'
 import { PlayerListService } from '../../../services/player-list-service'
 
-import {ViewChild}  from '@angular/core';
 import {NotificationsService} from 'angular2-notifications';
+
+import { UrlService } from '../../../services/url-service';
+
 
 @Component({
   selector: 'app-player-list',
@@ -23,13 +25,18 @@ export class PlayerListComponent implements OnInit {
     sortOrder = "asc";
     filterField: string = 'player';
     parentRouter: any;
+    numberPlayers: number = 0;
+    urlStats: string;
+    templateWindow: any;
 
     selectedLineId: string;
     selectedLineJoueur: string;
 
-    @ViewChild('modalSelection') modal: any;
-
-    constructor(private playerListService: PlayerListService, private notificationsService: NotificationsService) { }
+    constructor(private playerListService: PlayerListService, private notificationsService: NotificationsService,
+        private urlService: UrlService) {
+        this.urlStats = this.urlService.getHazeronStatsRootUrl();
+        this.templateWindow = window;
+    }
 
     ngOnInit() {
         this.getListe();
@@ -40,31 +47,19 @@ export class PlayerListComponent implements OnInit {
         this.playerListService.getListJoueurs().subscribe(
             playerList => {
                 this.data = playerList;
+                this.numberPlayers = this.data.length;
                 that.viewIsLoad = true;
             },
             error => {
                 this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
             }
         )
-        /*this.playerListService.getListJoueurs().then(function(list){
-            that.data = list;
-            that.viewIsLoad = true;
-        });*/
     }
 
     modalSelectionOpen(item: PlayerList){
-
         this.selectedLineId = item.id;
         this.selectedLineJoueur = item.player;
-
-        this.modal.open();
     }
 
-    modalSelectionClose(action: string){
-        if (action == 'statsHazeron'){
-            window.open("http://hazeron.com/EmpireStandings2015/"+this.selectedLineId+".html");
-        }
-        this.modal.close();
-    }
 
 }

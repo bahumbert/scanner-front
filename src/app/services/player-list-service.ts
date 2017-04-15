@@ -11,16 +11,7 @@ export class PlayerListService {
 
 constructor(private http: Http, private urlService: UrlService) { }
 
-/*getListJoueurs(): Promise<PlayerList[]> {
-
-    return this.http.get(this.urlService.getListeJoueursServiceUrl())
-                   .toPromise()
-                   .then(response => response.json().data as PlayerList[])
-                   .catch(this.handleError);
-}*/
-
 getListJoueurs(): Observable<Array<PlayerList>>{
-    //console.log(this.http.post('commands/resetdb', undefined));
     return this.http.get(this.urlService.getListeJoueursServiceUrl())
                     .map(response => response.json().data as PlayerList[])
                     .catch(this.handleError);
@@ -54,6 +45,7 @@ getDataGraphActivePlayersByEmpire(scale, origin: Date): Observable<Array<GraphDa
         dateOrigin = origin.getMonth() + ' ' + origin.getFullYear();
         origin.setMonth(origin.getMonth()+1);
         dateEnd = origin.getMonth() + ' ' + origin.getFullYear();
+
         return this.http.get(this.urlService.getDataGraphByEmpireMonthUrl())
                        .map(response => response.json().data as GraphData[])
                        .catch(this.handleError);
@@ -62,12 +54,11 @@ getDataGraphActivePlayersByEmpire(scale, origin: Date): Observable<Array<GraphDa
         dateOrigin = origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
         origin.setDate(origin.getDate()+1);
         dateEnd =  origin.getDate() + ' ' + origin.getMonth() + ' ' + origin.getFullYear();
+
         return this.http.get(this.urlService.getDataGraphByEmpireWeekUrl())
                        .map(response => response.json().data as GraphData[])
                        .catch(this.handleError);
     }
-
-    //return Promise.resolve(DATACOLUMNGRAPH);
 }
 
 getListActivePlayersByEmpire(empire: string): Observable<Array<PlayerList>>{

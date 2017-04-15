@@ -9,6 +9,10 @@ export class UrlService{
         return 'localhost:8080/';
     }
 
+    getHazeronStatsRootUrl(){
+        return "http://hazeron.com/EmpireStandings2015/";
+    }
+
     getListeJoueursServiceUrl(): string{
         return /*this.getRootServerUrl()+*/'api/listeJoueurs';
     }

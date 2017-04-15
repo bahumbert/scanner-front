@@ -4,8 +4,9 @@ import { PlayerList } from '../../../model/player-list';
 import { PlayerListService } from '../../../services/player-list-service';
 import { GraphConfigService } from '../../../services/graph-config.service';
 
-import {ViewChild}  from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
+
+import { UrlService } from '../../../services/url-service';
 
 @Component({
   selector: 'app-general-graph',
@@ -42,6 +43,9 @@ export class GeneralGraphComponent implements OnInit {
     byEmpireIsLoad: boolean = false;
     tableIsLoad: boolean = false;
 
+    templateWindow: any;
+    urlStats: string;
+
     selectedLineValue: string = "";
     selectedColumnValue: string = "";
     selectedLineId: string;
@@ -49,15 +53,16 @@ export class GeneralGraphComponent implements OnInit {
     captionByDate: string = "Nombre de joueurs actifs par "+this.scaleByDate;
     captionByEmpire: string = "Joueurs actifs par empire, lors du "+this.scaleByEmpire;
 
-    @ViewChild('modalSelection2') modal: any;
-
-    constructor(private playerListService: PlayerListService, private graphConfigService: GraphConfigService, private notificationsService: NotificationsService) {
+    constructor(private playerListService: PlayerListService, private graphConfigService: GraphConfigService,
+        private notificationsService: NotificationsService, private urlService: UrlService) {
         let d = new Date();
         let d2 = new Date(d.setMonth(d.getMonth()-1));
         this.endXAxisByDate = d2;
         d.setMonth(d.getMonth()-10);
         this.originXAxisByDate = d;
         this.originXAxisByEmpire = d2;
+        this.templateWindow = window;
+        this.urlStats = this.urlService.getHazeronStatsRootUrl();
     }
 
     ngOnInit() {
@@ -168,18 +173,7 @@ export class GeneralGraphComponent implements OnInit {
      }
 
      modalSelectionOpen(item: PlayerList){
-
          this.selectedLineId = item.id;
          this.selectedLineJoueur = item.player;
-
-         this.modal.open();
      }
-
-     modalSelectionClose(action: string){
-         if (action == 'statsHazeron'){
-             window.open("http://hazeron.com/EmpireStandings2015/"+this.selectedLineId+".html");
-         }
-         this.modal.close();
-     }
-
 }

@@ -11,7 +11,7 @@
                 <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
             </div>
             <div class="panel-heading">
-                4 joueurs connectés
+                {{numberPlayers}} joueurs connectés
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -45,7 +45,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf.data" (click)="modalSelectionOpen(item)">
+                            <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf.data" (click)="modalSelectionOpen(item); modalSelection.open()">
                                 <td>{{item.id}}</td>
                                 <td>{{item.player}}</td>
                                 <td><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.empire}}</td>
@@ -68,9 +68,9 @@
         <h1>Vous avez cliqué sur la ligne de <small><strong>{{selectedLineJoueur}} ({{selectedLineId}})</strong></small>, que voulez-vous faire ?</h1>
     </modal-header>
     <modal-content>
-        <div class="row row-button"><button class="btn btn-primary" (click)="modalSelectionClose('statsHazeron')"><i class="fa fa-address-card"></i></button> <strong>Consulter son profil sur hazeron.com</strong></div>
-        <div class="row row-button"><button class="btn btn-success" routerLink="" (click)="modalSelectionClose()"><i class="fa fa-bar-chart"></i></button> <strong>Consulter ses statistiques sur le scanner</strong></div>
-        <div class="row row-button"><button class="btn btn-warning" routerLink="" (click)="modalSelectionClose()"><i class="fa fa-bank"></i></button> <strong>Consulter les statistiques de son empire sur le scanner</strong></div>
+        <div class="row row-button"><button class="btn btn-primary" (click)="templateWindow.open(urlStats+selectedLineId+'.html'); modalSelection.close()"><i class="fa fa-address-card"></i></button> <strong>Consulter son profil sur hazeron.com</strong></div>
+        <div class="row row-button"><button class="btn btn-success" routerLink="/player-details/{{selectedLineId}}" (click)="modalSelection.close()"><i class="fa fa-bar-chart"></i></button> <strong>Consulter ses statistiques sur le scanner</strong></div>
+        <div class="row row-button"><button class="btn btn-warning" routerLink="/empire-details" (click)="modalSelection.close()"><i class="fa fa-bank"></i></button> <strong>Consulter les statistiques de son empire sur le scanner</strong></div>
     </modal-content>
     <modal-footer>
         <button class="btn btn-secondary" (click)="modalSelection.close()">Annuler</button>

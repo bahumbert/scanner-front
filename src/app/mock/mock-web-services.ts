@@ -1,7 +1,7 @@
 //import { TestDataTable } from '../model/test-data-table'
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 
-export class MockDbListeJoueurs implements InMemoryDbService{
+export class MockWebServices implements InMemoryDbService{
     createDb(){
         let listeJoueurs =
             [
