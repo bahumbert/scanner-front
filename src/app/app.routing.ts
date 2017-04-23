@@ -8,7 +8,7 @@ export const routes: Routes = [
     { path: '', redirectTo: 'player-list', pathMatch: 'full' },
     { path: 'player-list', component: PlayerListComponent },
     { path: 'player-details/:id', component: PlayerDetailsComponent},
-    /*{ path: '**', redirectTo: 'player-list', pathMatch: 'full' },*/
+    { path: '**', redirectTo: 'player-list', pathMatch: 'full' },
 ]
 
 @NgModule({

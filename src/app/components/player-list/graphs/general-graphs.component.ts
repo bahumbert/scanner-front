@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PlayerList } from '../../../model/player-list';
+import { Player } from '../../../model/player';
 import { PlayerListService } from '../../../services/player-list-service';
 import { GraphConfigService } from '../../../services/graph-config.service';
 
@@ -26,7 +26,7 @@ export class GeneralGraphComponent implements OnInit {
 
     title: string;
 
-    tableData: Array<PlayerList>;
+    tableData: Array<Player>;
     rowsOnPageGraph = 500;
     sortOrderGraph: string = 'asc';
     sortByGraph: string = 'player';
@@ -183,7 +183,7 @@ export class GeneralGraphComponent implements OnInit {
            this.playerListService.getListActivePlayersByDate(arg.categoryLabel).subscribe(
            list => {
                 that.tableData = list;
-                that.tableIsLoad = true;
+                this.convertDate();
            },
            error => {
                this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
@@ -203,8 +203,8 @@ export class GeneralGraphComponent implements OnInit {
            that.playerListService.getListActivePlayersByEmpire(arg.categoryLabel).subscribe(
            list => {
                that.tableData = list;
-               that.tableIsLoad = true;
                that.filterFieldGraph = 'player';
+               this.convertDate();
            },
            error => {
                this.notificationsService.error('Une erreur est survenue', 'Veuillez contacter votre empereur favori');
@@ -221,8 +221,28 @@ export class GeneralGraphComponent implements OnInit {
          dataPlotClick: this.seletedActivesByEmpire()
      }
 
-     modalSelectionOpen(item: PlayerList){
+     modalSelectionOpen(item: Player){
          this.selectedLineId = item.id;
-         this.selectedLineJoueur = item.player;
+         this.selectedLineJoueur = item.name;
+     }
+
+     convertDate(){
+         this.tableData.forEach(player => {
+             player.connections.forEach(connection => {
+                 if(!connection.date_login){
+                     if (connection.date_login_month < 10){
+                         connection.date_login = connection.date_login_year+'-0'+connection.date_login_month+'-'+connection.date_login_day+' '+connection.date_login_time;
+                     }
+                     else {
+                         connection.date_login = connection.date_login_year+'-'+connection.date_login_month+'-'+connection.date_login_day+' '+connection.date_login_time;
+                     }
+                 }
+             });
+
+             if (!player.lastConnection){
+                player.lastConnection = player.connections[player.connections.length-1];
+             }
+         });
+        this.tableIsLoad = true;
      }
 }

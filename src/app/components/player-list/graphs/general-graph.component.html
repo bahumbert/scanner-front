@@ -7,6 +7,7 @@
                 <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
             </div>
             <div class="panel-heading">
+                <i class="fa fa-bar-chart"></i>
                 {{captionByDate}}
             </div>
             <div class="panel-body">
@@ -45,6 +46,7 @@
                 <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
             </div>
             <div class="panel-heading">
+                <i class="fa fa-bar-chart"></i>
                 {{captionByEmpire}}
             </div>
             <div class="panel-body">
@@ -79,6 +81,7 @@
                 <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
             </div>
             <div class="panel-heading">
+                <i class="fa fa-list-ul"></i>
                 <span *ngIf="selectedLineValue">Liste des joueurs actifs, {{selectedLineValue}}</span>
                 <span *ngIf="selectedColumnValue">Liste des joueurs actifs du {{selectedColumnValue}}, {{scaleByEmpire}}</span>
             </div>
@@ -102,22 +105,22 @@
                                 <mfDefaultSorter by="id">Id</mfDefaultSorter>
                             </th>
                             <th style="width: 30%">
-                                <mfDefaultSorter by="player">Joueur</mfDefaultSorter>
+                                <mfDefaultSorter by="name">Joueur</mfDefaultSorter>
                             </th>
                             <th style="width: 30%" *ngIf="showEmpire">
-                                <mfDefaultSorter by="empire">Empire</mfDefaultSorter>
+                                <mfDefaultSorter by="current_empire">Empire</mfDefaultSorter>
                             </th>
                             <th style="width: 30%">
-                                <mfDefaultSorter by="connection">Dernière connexion</mfDefaultSorter>
+                                <mfDefaultSorter by="lastConnection.date_login">Dernière connexion</mfDefaultSorter>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf2.data" (click)="modalSelectionOpen(item); modalSelection.open()">
                             <td>{{item.id}}</td>
-                            <td>{{item.player}}</td>
-                            <td *ngIf="showEmpire"><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.empire}}</td>
-                            <td>{{item.connection}}</td>
+                            <td>{{item.name}}</td>
+                            <td *ngIf="showEmpire"><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.current_empire}}</td>
+                            <td>{{item.lastConnection.date_login}}</td>
                         </tr>
                         </tbody>
                     </table>

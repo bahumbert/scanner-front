@@ -6,7 +6,7 @@ export class UrlService{
     }
 
     getRootServerUrl(): string{
-        return 'localhost:8080/';
+        return 'http://localhost:8080/';
     }
 
     getHazeronStatsRootUrl(){
@@ -14,34 +14,35 @@ export class UrlService{
     }
 
     getListeJoueursServiceUrl(): string{
-        return /*this.getRootServerUrl()+*/'api/listeJoueurs';
+        //return this.getRootServerUrl()+'players?online=true' //+ 'api/listeJoueurs';
+        return this.getRootServerUrl()+"api/listeJoueurs";
     }
 
             /* Probablement fusionner les 2 url ci-dessous */
     getDataGraphByDateDayUrl(){
-        return /*this.getRootServerUrl()+*/'api/dataGraphByDateDay';
+        return this.getRootServerUrl()+'api/dataGraphByDateDay';
     }
 
     getDataGraphByDateMonthUrl(){
-        return /*this.getRootServerUrl()+*/'api/dataGraphByDateMonth';
+        return this.getRootServerUrl()+'api/dataGraphByDateMonth';
     }
 
 
     /* Probablement fusionner les 2 url ci-dessous */
     getDataGraphByEmpireMonthUrl(){
-    return /*this.getRootServerUrl()+*/'api/dataGraphByEmpireMonth';
+    return this.getRootServerUrl()+'api/dataGraphByEmpireMonth';
     }
 
     getDataGraphByEmpireWeekUrl(){
-    return /*this.getRootServerUrl()+*/'api/dataGraphByEmpireWeek';
+    return this.getRootServerUrl()+'api/dataGraphByEmpireWeek';
     }
 
         /* Probablement fusionner les 2 url ci-dessous */
     getDataActifsByEmpireUrl(){
-        return /*this.getRootServerUrl()+*/'api/dataActifsByEmpire';
+        return this.getRootServerUrl()+'api/dataActifsByEmpire';
     }
 
     getDataActifsByDateUrl(){
-        return /*this.getRootServerUrl()+*/'api/dataActifsByDate';
+        return this.getRootServerUrl()+'api/dataActifsByDate';
     }
 }

@@ -1,4 +1,4 @@
-import { PlayerList } from '../model/player-list';
+import { Player } from '../model/player';
 import {GraphData } from '../model/graph-data';
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
@@ -11,9 +11,9 @@ export class PlayerListService {
 
 constructor(private http: Http, private urlService: UrlService) { }
 
-getListJoueurs(): Observable<Array<PlayerList>>{
+getListJoueurs(): Observable<Array<Player>>{
     return this.http.get(this.urlService.getListeJoueursServiceUrl())
-                    .map(response => response.json().data as PlayerList[])
+                    .map(response => response.json().data as Player[])
                     .catch(this.handleError);
 }
 
@@ -61,15 +61,15 @@ getDataGraphActivePlayersByEmpire(scale, from: number, to: number): Observable<A
     }
 }
 
-getListActivePlayersByEmpire(empire: string): Observable<Array<PlayerList>>{
+getListActivePlayersByEmpire(empire: string): Observable<Array<Player>>{
     return this.http.get(this.urlService.getDataActifsByEmpireUrl())
-                   .map(response => response.json().data as GraphData[])
+                   .map(response => response.json().data as Player[])
                    .catch(this.handleError);
 }
 
-getListActivePlayersByDate(date: string): Observable<Array<PlayerList>>{
+getListActivePlayersByDate(date: string): Observable<Array<Player>>{
     return this.http.get(this.urlService.getDataActifsByDateUrl())
-                   .map(response => response.json().data as GraphData[])
+                   .map(response => response.json().data as Player[])
                    .catch(this.handleError);
 }
 

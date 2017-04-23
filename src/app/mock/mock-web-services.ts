@@ -5,10 +5,10 @@ export class MockWebServices implements InMemoryDbService{
     createDb(){
         let listeJoueurs =
             [
-                { "id": "pDBNXVB", "player": "Byen", "urlEmpireImage": null, "empire": "Axia", "connection": '2015-09-23 20:42:29'},
-                { "id": "pIXINVC", "player": "Ciella", "urlEmpireImage": null, "empire": "Septimus Prime", "connection": '2015-09-23 20:01:20'},
-                { "id": "pSBGUC", "player": "DynamOri", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/106.png", "empire": "French Empire", "connection": '2015-09-23 20:13:27'},
-                { "id": "pXOYX", "player": "NUMBERZero1032", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/109.png", "empire": "Syndicate", "connection": '2015-09-23 21:00:18'},
+                { "id": "pDBNXVB", "name": "Byen", "urlEmpireImage": null, "current_empire": "Axia", "lastConnection": {'date_login':'2015-09-23 20:42:29'}},
+                { "id": "pIXINVC", "name": "Ciella", "urlEmpireImage": null, "current_empire": "Septimus Prime", "connections": [{'date_login':'2015-09-23 20:01:20'}]},
+                { "id": "pSBGUC", "name": "DynamOri", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/106.png", "current_empire": "French Empire", "lastConnection": {'date_login': '2015-09-23 20:13:27'}},
+                { "id": "pXOYX", "name": "NUMBERZero1032", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/109.png", "current_empire": "Syndicate", "lastConnection": {'date_login': '2015-09-23 21:00:18'}},
             ];
         let dataGraphByDateDay =
             [
@@ -51,14 +51,14 @@ export class MockWebServices implements InMemoryDbService{
 
         let dataActifsByDate =
             [
-                { "id": "pDBNXVB", "player": "Byen", "urlEmpireImage": null, "empire": "Axia", "connection": '2015-09-23 20:42:29'},
-                { "id": "pIXINVC", "player": "Ciella", "urlEmpireImage": null, "empire": "Septimus Prime", "connection": '2015-09-23 20:01:20'},
-                { "id": "pSBGUC", "player": "DynamOri", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/106.png", "empire": "French Empire", "connection": '2015-09-23 20:13:27'},
-                { "id": "pXOYX", "player": "NUMBERZero1032", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/109.png", "empire": "Syndicate", "connection": '2015-09-23 21:00:18'},
+                { "id": "pDBNXVB", "name": "Byen", "urlEmpireImage": null, "current_empire": "Axia", "lastConnection": {'date_login': '2015-09-23 20:42:29'}},
+                { "id": "pIXINVC", "name": "Ciella", "urlEmpireImage": null, "current_empire": "Septimus Prime", "lastConnection": {'date_login': '2015-09-23 20:01:20'}},
+                { "id": "pSBGUC", "name": "DynamOri", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/106.png", "current_empire": "French Empire", "lastConnection": {'date_login': '2015-09-23 20:13:27'}},
+                { "id": "pXOYX", "name": "NUMBERZero1032", "urlEmpireImage": "http://hazeron.com/EmpireStandings2015/109.png", "current_empire": "Syndicate", "lastConnection": {'date_login': '2015-09-23 21:00:18'}},
             ];
         let dataActifsByEmpire =
             [
-                    { "id": "Non mais tu", "player": "Crois vraiment que", "connection": "J'ai que ça à faire ?"},
+                    { "id": "Non mais tu", "name": "Crois vraiment que", "lastConnection": {"date_login": "J'ai que ça à faire ?"}},
             ]
 
       return {listeJoueurs, dataGraphByDateDay, dataGraphByDateMonth, dataGraphByEmpireMonth, dataGraphByEmpireWeek, dataActifsByDate, dataActifsByEmpire};
