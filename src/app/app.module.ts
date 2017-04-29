@@ -23,8 +23,13 @@ import { PlayerListService } from './services/player-list-service';
 import { UrlService } from './services/url-service';
 import { GraphConfigService } from './services/graph-config.service';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { MockWebServices }  from './mock/mock-web-services';
+export class FusionChartsProvider {
+	constructor (chartParameters: Object) {
+		Charts(FusionCharts);
+
+		return new FusionCharts(chartParameters);
+	}
+}
 
 @NgModule({
   declarations: [
@@ -41,9 +46,8 @@ import { MockWebServices }  from './mock/mock-web-services';
     HttpModule,
     AppRoutingModule,
     DataTableModule,
-    InMemoryWebApiModule.forRoot(MockWebServices, {delay: 200}),
     ModalModule,
-    FusionChartsModule.forRoot(FusionCharts, Charts),
+    FusionChartsModule.forRoot(FusionChartsProvider),
     MyDateRangePickerModule,
     SimpleNotificationsModule.forRoot(),
   ],

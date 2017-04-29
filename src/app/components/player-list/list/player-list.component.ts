@@ -6,7 +6,7 @@ import { PlayerListService } from '../../../services/player-list-service'
 import {NotificationsService} from 'angular2-notifications';
 
 import { UrlService } from '../../../services/url-service';
-
+import * as Moment from 'moment/moment';
 
 @Component({
   selector: 'app-player-list',
@@ -19,11 +19,11 @@ export class PlayerListComponent implements OnInit {
     viewIsLoad: boolean = false;
 
     data: Array<Player>;
-    rowsOnPage: number = 500;
+    rowsOnPage: number = 5000;
     filterQuery = "";
-    sortBy = "player";
+    sortBy = "name";
     sortOrder = "asc";
-    filterField: string = 'player';
+    filterField: string = 'name';
     parentRouter: any;
     numberPlayers: number = 0;
     urlStats: string;
@@ -45,7 +45,6 @@ export class PlayerListComponent implements OnInit {
     getListe(){
         this.playerListService.getListJoueurs().subscribe(
             list => {
-                console.log(list);
                 this.data = list;
                 this.numberPlayers = this.data.length;
                 this.convertDate();
@@ -65,18 +64,12 @@ export class PlayerListComponent implements OnInit {
         this.data.forEach(player => {
             if (player.connections){
                 player.connections.forEach(connection => {
-                    if(!connection.date_login){
-                        if (connection.date_login_month < 10){
-                            connection.date_login = connection.date_login_year+'-0'+connection.date_login_month+'-'+connection.date_login_day+' '+connection.date_login_time;
-                        }
-                        else {
-                            connection.date_login = connection.date_login_year+'-'+connection.date_login_month+'-'+connection.date_login_day+' '+connection.date_login_time;
-                        }
-                    }
+                    connection.timestamp_login = Moment.unix(Number(connection.timestamp_login)).format('YYYY-MM-DD HH:mm:ss');
+                    connection.timestamp_logout = Moment.unix(Number(connection.timestamp_logout)).format('YYYY-MM-DD HH:mm:ss');
                 });
-                if (!player.lastConnection){
-                   player.lastConnection = player.connections[player.connections.length-1];
-                }
+            }
+            if (player.timestamp_login){
+               player.timestamp_login = Moment.unix(Number(player.timestamp_login)).format('YYYY-MM-DD HH:mm:ss');
             }
         });
        this.viewIsLoad = true;

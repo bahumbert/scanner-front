@@ -14,35 +14,22 @@ export class UrlService{
     }
 
     getListeJoueursServiceUrl(): string{
-        //return this.getRootServerUrl()+'players?online=true' //+ 'api/listeJoueurs';
-        return this.getRootServerUrl()+"api/listeJoueurs";
+        return this.getRootServerUrl()+'players?online=true';
     }
 
-            /* Probablement fusionner les 2 url ci-dessous */
-    getDataGraphByDateDayUrl(){
-        return this.getRootServerUrl()+'api/dataGraphByDateDay';
+    getDataGraphByDateUrl(){
+        return this.getRootServerUrl()+'players/actives/date';
     }
 
-    getDataGraphByDateMonthUrl(){
-        return this.getRootServerUrl()+'api/dataGraphByDateMonth';
+    getDataGraphByEmpireUrl(){
+        return this.getRootServerUrl()+'players/actives/empire';
     }
 
-
-    /* Probablement fusionner les 2 url ci-dessous */
-    getDataGraphByEmpireMonthUrl(){
-    return this.getRootServerUrl()+'api/dataGraphByEmpireMonth';
-    }
-
-    getDataGraphByEmpireWeekUrl(){
-    return this.getRootServerUrl()+'api/dataGraphByEmpireWeek';
-    }
-
-        /* Probablement fusionner les 2 url ci-dessous */
     getDataActifsByEmpireUrl(){
-        return this.getRootServerUrl()+'api/dataActifsByEmpire';
+        return this.getRootServerUrl()+'players/actives/empire';
     }
 
     getDataActifsByDateUrl(){
-        return this.getRootServerUrl()+'api/dataActifsByDate';
+        return this.getRootServerUrl()+'players/actives/date';
     }
 }

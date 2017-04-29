@@ -6,6 +6,6 @@ export class Player{
     appeared_at: Date;
     urlEmpireImage: string;
     current_empire: string;
-    lastConnection: Connection;
+    timestamp_login: string;
     connections: Array<Connection>;
 }

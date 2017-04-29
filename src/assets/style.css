@@ -75,3 +75,8 @@ p {
     color: white;
     background-color: #d9534f;
 }
+
+.table-row{
+    max-height: 75vh;
+    overflow-y: auto;
+}

@@ -27,11 +27,11 @@ export class GeneralGraphComponent implements OnInit {
     title: string;
 
     tableData: Array<Player>;
-    rowsOnPageGraph = 500;
+    rowsOnPageGraph = 5000;
     sortOrderGraph: string = 'asc';
-    sortByGraph: string = 'player';
+    sortByGraph: string = 'name';
     filterQueryGraph: string = '';
-    filterFieldGraph: string = "player";
+    filterFieldGraph: string = "name";
 
     showEmpire: boolean = true;
     showTable: boolean = false;
@@ -101,6 +101,8 @@ export class GeneralGraphComponent implements OnInit {
 
     reloadByDateGraph($event){
 
+        $event.beginDate.month -= 1;
+        $event.endDate.month -= 1;
         let beginDate = Moment($event.beginDate);
         beginDate.month(beginDate.month()-1);
         let endDate = Moment($event.endDate);
@@ -178,9 +180,27 @@ export class GeneralGraphComponent implements OnInit {
        var that = this;
        return (eve, arg) => {
            that.selectedLineValue = arg.categoryLabel;
+
+           let beginDate;
+           let endDate;
+
+
+           if (this.scaleByDate == 'mois'){
+               beginDate = Moment(arg.categoryLabel, "MMMM YYYY");
+               endDate = beginDate;
+               beginDate = beginDate.startOf('month').unix();
+               endDate = endDate.endOf('month').unix();
+           }
+           else if (this.scaleByDate == 'jour'){
+               beginDate = Moment(arg.categoryLabel, "DD MMMM YYYY");
+               endDate = beginDate;
+               beginDate = beginDate.startOf('day').unix();
+               endDate = endDate.endOf('day').unix();
+           }
+
            that.selectedColumnValue = "";
            that.tableIsLoad = false;
-           this.playerListService.getListActivePlayersByDate(arg.categoryLabel).subscribe(
+           this.playerListService.getListActivePlayersByDate(beginDate, endDate, this.scaleByDate).subscribe(
            list => {
                 that.tableData = list;
                 this.convertDate();
@@ -197,10 +217,26 @@ export class GeneralGraphComponent implements OnInit {
        var that = this;
        return (eve, arg) => {
            that.selectedColumnValue = arg.categoryLabel;
+
+           let beginDate;
+           let endDate;
+           endDate= Moment();
+           beginDate = endDate;
+           if (this.scaleByDate == 'mois précédent'){
+               endDate.month(endDate.month()-1).endOf('month');
+               beginDate = endDate.startOf('month').unix();
+               endDate = endDate.unix();
+           }
+           else if (this.scaleByDate == 'semaine précédente'){
+               endDate = endDate.startOf('day');
+               beginDate = endDate.date(endDate.date()-7).startOf('day').unix();
+               endDate = endDate.unix();
+           }
+
            that.selectedLineValue = "";
            that.showEmpire = false;
            that.tableIsLoad = false;
-           that.playerListService.getListActivePlayersByEmpire(arg.categoryLabel).subscribe(
+           that.playerListService.getListActivePlayersByEmpire(beginDate, endDate, arg.categoryLabel).subscribe(
            list => {
                that.tableData = list;
                that.filterFieldGraph = 'player';
@@ -228,19 +264,14 @@ export class GeneralGraphComponent implements OnInit {
 
      convertDate(){
          this.tableData.forEach(player => {
-             player.connections.forEach(connection => {
-                 if(!connection.date_login){
-                     if (connection.date_login_month < 10){
-                         connection.date_login = connection.date_login_year+'-0'+connection.date_login_month+'-'+connection.date_login_day+' '+connection.date_login_time;
-                     }
-                     else {
-                         connection.date_login = connection.date_login_year+'-'+connection.date_login_month+'-'+connection.date_login_day+' '+connection.date_login_time;
-                     }
-                 }
-             });
-
-             if (!player.lastConnection){
-                player.lastConnection = player.connections[player.connections.length-1];
+             if (player.connections){
+                 player.connections.forEach(connection => {
+                     connection.timestamp_login = Moment.unix(Number(connection.timestamp_login)).format('YYYY-MM-DD HH:mm:ss');
+                     connection.timestamp_logout = Moment.unix(Number(connection.timestamp_logout)).format('YYYY-MM-DD HH:mm:ss');
+                 });
+             }
+             if (player.timestamp_login){
+                player.timestamp_login = Moment.unix(Number(player.timestamp_login)).format('YYYY-MM-DD HH:mm:ss');
              }
          });
         this.tableIsLoad = true;

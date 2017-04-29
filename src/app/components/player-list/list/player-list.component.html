@@ -22,13 +22,13 @@
                         </div>
                         <div class="col-lg-2 col-sm-3 select-div">
                             <select id="filter-list" class="form-control input-md" [(ngModel)]="filterField">
-                                <option value="player">Joueur</option>
-                                <option value="empire">Empire</option>
+                                <option value="name">Joueur</option>
+                                <option value="current_empire">Empire</option>
                             </select>
                         </div>
                     </div>
-                    <div class='row'>
-                        <div class="col-xs-12" style="overflow-x:auto;">
+                    <div class='row table-row'>
+                        <div class="col-xs-12">
                             <table class="table table-striped table-hover table-bordered table-select" [mfData]="data | dataFilter : filterQuery : filterField" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
                                 <thead>
                                 <tr>
@@ -42,7 +42,7 @@
                                         <mfDefaultSorter by="current_empire">Empire</mfDefaultSorter>
                                     </th>
                                     <th style="width: 30%">
-                                        <mfDefaultSorter by="lastConnection.date_login">Connexion</mfDefaultSorter>
+                                        <mfDefaultSorter by="timestamp_login">Connexion</mfDefaultSorter>
                                     </th>
                                 </tr>
                                 </thead>
@@ -51,7 +51,7 @@
                                     <td>{{item.id}}</td>
                                     <td>{{item.name}}</td>
                                     <td><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.current_empire}}</td>
-                                    <td>{{item.lastConnection?.date_login}}</td>
+                                    <td>{{item.timestamp_login}}</td>
                                 </tr>
                                 </tbody>
                             </table>
