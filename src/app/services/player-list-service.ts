@@ -1,8 +1,8 @@
 import { Player } from '../model/player';
-import {GraphData } from '../model/graph-data';
+import { GraphData } from '../model/graph-data';
 import { Injectable } from '@angular/core';
-import {Http, URLSearchParams} from "@angular/http";
-import {Observable} from 'rxjs/Observable';
+import { Http, URLSearchParams } from "@angular/http";
+import { Observable } from 'rxjs/Observable';
 
 import { UrlService } from './url-service';
 
@@ -13,9 +13,12 @@ constructor(private http: Http, private urlService: UrlService) { }
 
 getListJoueurs(): Observable<Array<Player>>{
 
-    return this.http.get(this.urlService.getListeJoueursServiceUrl())
-                    .map(response => response.json().data as Player[])
-                    .catch(this.handleError);
+    var onlinePlayers = this.http.get(this.urlService.getListeJoueursServiceUrl())
+                            .map(response => response.json().data as Player[])
+                            .catch(this.handleError);
+
+    return onlinePlayers.expand(() => Observable.timer(30000).concatMap(() => onlinePlayers));
+    //return onlinePlayers;
 }
 
 getDataGraphActivePlayersByDate(scale, from: number, to: number): Observable<Array<GraphData>>{

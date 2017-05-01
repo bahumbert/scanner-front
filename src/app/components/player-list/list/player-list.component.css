@@ -1,0 +1,10 @@
+.chargement-refresh{
+
+    position:absolute;
+    top: 0;
+    right: 0;
+    /*min-height: 600px;*/
+    color: #dddddd;
+    z-index: 1000;
+
+}

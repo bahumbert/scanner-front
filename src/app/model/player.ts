@@ -4,7 +4,7 @@ export class Player{
     id: string;
     name : string;
     appeared_at: Date;
-    urlEmpireImage: string;
+    idEmpire: string;
     current_empire: string;
     timestamp_login: string;
     connections: Array<Connection>;

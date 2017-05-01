@@ -10,6 +10,7 @@ import { UrlService } from '../../../services/url-service';
 
 import {IMyOptions} from 'mydaterangepicker';
 import * as Moment from 'moment/moment';
+import { GraphData } from '../../../model/graph-data';
 
 @Component({
   selector: 'app-general-graph',
@@ -21,8 +22,8 @@ export class GeneralGraphComponent implements OnInit {
 
     dataSource: Object;
     dataSourceBars: Object;
-    dataLine:Object;
-    dataColumn: Object;
+    dataLine:Array<GraphData>;
+    dataColumn: Array<GraphData>;
 
     title: string;
 
@@ -31,7 +32,7 @@ export class GeneralGraphComponent implements OnInit {
     sortOrderGraph: string = 'asc';
     sortByGraph: string = 'name';
     filterQueryGraph: string = '';
-    filterFieldGraph: string = "name";
+    filterFieldGraph: string = 'name';
 
     showEmpire: boolean = true;
     showTable: boolean = false;
@@ -101,12 +102,14 @@ export class GeneralGraphComponent implements OnInit {
 
     reloadByDateGraph($event){
 
-        $event.beginDate.month -= 1;
-        $event.endDate.month -= 1;
-        let beginDate = Moment($event.beginDate);
-        beginDate.month(beginDate.month()-1);
-        let endDate = Moment($event.endDate);
-        endDate.month(endDate.month()-1).endOf('day');
+        let begin = JSON.parse(JSON.stringify($event.beginDate));
+        begin.month -= 1;
+        let end = JSON.parse(JSON.stringify($event.endDate));
+        end.month -= 1;
+        let beginDate = Moment(begin);
+        let endDate = Moment(end);
+        endDate.endOf('day');
+        beginDate.startOf('day');
         if (this.scaleByDate == 'mois'){
             beginDate.startOf('month');
             endDate.endOf('month');
@@ -160,6 +163,11 @@ export class GeneralGraphComponent implements OnInit {
         this.playerListService.getDataGraphActivePlayersByEmpire(this.scaleByEmpire, this.originXAxisByEmpire, this.endXAxisByEmpire).subscribe(
         list => {
             that.dataColumn = list;
+            that.dataColumn.forEach( column => {
+                if (!column.label){
+                    column.label = "Nouvel empire";
+                }
+            });
             that.dataSourceBars = {
                 "chart": that.graphConfigService.getConfColumnGraph(that.captionByEmpire, that.scaleByEmpire, that.yAxisName),
                 "data": that.dataColumn,
@@ -184,7 +192,6 @@ export class GeneralGraphComponent implements OnInit {
            let beginDate;
            let endDate;
 
-
            if (this.scaleByDate == 'mois'){
                beginDate = Moment(arg.categoryLabel, "MMMM YYYY");
                endDate = beginDate;
@@ -203,6 +210,7 @@ export class GeneralGraphComponent implements OnInit {
            this.playerListService.getListActivePlayersByDate(beginDate, endDate, this.scaleByDate).subscribe(
            list => {
                 that.tableData = list;
+                this.checkEmpires();
                 this.convertDate();
            },
            error => {
@@ -220,16 +228,17 @@ export class GeneralGraphComponent implements OnInit {
 
            let beginDate;
            let endDate;
-           endDate= Moment();
-           beginDate = endDate;
-           if (this.scaleByDate == 'mois précédent'){
+           endDate = Moment();
+           if (this.scaleByEmpire == 'mois précédent'){
                endDate.month(endDate.month()-1).endOf('month');
-               beginDate = endDate.startOf('month').unix();
+               beginDate = Moment();
+               beginDate = beginDate.month(beginDate.month()-1).startOf('month').unix();
                endDate = endDate.unix();
            }
-           else if (this.scaleByDate == 'semaine précédente'){
+           else if (this.scaleByEmpire == 'semaine précédente'){
                endDate = endDate.startOf('day');
-               beginDate = endDate.date(endDate.date()-7).startOf('day').unix();
+               beginDate = Moment();
+               beginDate = beginDate.date(beginDate.date()-7).startOf('day').unix();
                endDate = endDate.unix();
            }
 
@@ -239,7 +248,8 @@ export class GeneralGraphComponent implements OnInit {
            that.playerListService.getListActivePlayersByEmpire(beginDate, endDate, arg.categoryLabel).subscribe(
            list => {
                that.tableData = list;
-               that.filterFieldGraph = 'player';
+               that.filterFieldGraph = 'name';
+               this.checkEmpires();
                this.convertDate();
            },
            error => {
@@ -261,6 +271,15 @@ export class GeneralGraphComponent implements OnInit {
          this.selectedLineId = item.id;
          this.selectedLineJoueur = item.name;
      }
+
+     checkEmpires(){
+         this.tableData.forEach(player => {
+             if (!player.current_empire){
+                 player.current_empire = 'Nouvel empire';
+             }
+         });
+     }
+
 
      convertDate(){
          this.tableData.forEach(player => {

@@ -93,7 +93,7 @@
                     <div class="col-lg-2 col-sm-3">
                         <select id="filter-point-data" [(ngModel)]="filterFieldGraph" class="form-control input-md">
                             <option value="name">Joueur</option>
-                            <option value="current_empire">Empire</option>
+                            <option *ngIf="showEmpire" value="current_empire">Empire</option>
                         </select>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                         <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf2.data" (click)="modalSelectionOpen(item); modalSelection.open()">
                             <td>{{item.id}}</td>
                             <td>{{item.name}}</td>
-                            <td *ngIf="showEmpire"><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.current_empire}}</td>
+                            <td *ngIf="showEmpire"><img class="image-empire" src="{{urlStats}}{{item.idEmpire}}.png"> {{item.current_empire}}</td>
                             <td>{{item.timestamp_login}}</td>
                         </tr>
                         </tbody>

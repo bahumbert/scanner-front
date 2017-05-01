@@ -11,6 +11,9 @@
                     <h2>Chargement</h2>
                     <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
                 </div>
+                <div class='chargement-refresh' *ngIf="refresh">
+                    <i class="fa fa-spinner fa-spin fa-5x fa-fw"></i>
+                </div>
                 <div class="panel-heading">
                     <i class="fa fa-list-ul"></i>
                     {{numberPlayers}} joueurs connectés
@@ -50,7 +53,7 @@
                                 <tr class='tr-table' title='Sélectionner ce joueur' *ngFor="let item of mf.data" (click)="modalSelectionOpen(item); modalSelection.open()">
                                     <td>{{item.id}}</td>
                                     <td>{{item.name}}</td>
-                                    <td><img class="image-empire" src="{{item.urlEmpireImage}}"> {{item.current_empire}}</td>
+                                    <td><img class="image-empire" src="{{urlStats}}{{item.idEmpire}}.png">  {{item.current_empire}}</td>
                                     <td>{{item.timestamp_login}}</td>
                                 </tr>
                                 </tbody>

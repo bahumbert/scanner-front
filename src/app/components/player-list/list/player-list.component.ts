@@ -17,6 +17,7 @@ import * as Moment from 'moment/moment';
 export class PlayerListComponent implements OnInit {
 
     viewIsLoad: boolean = false;
+    refresh: boolean = false;
 
     data: Array<Player>;
     rowsOnPage: number = 5000;
@@ -47,6 +48,7 @@ export class PlayerListComponent implements OnInit {
             list => {
                 this.data = list;
                 this.numberPlayers = this.data.length;
+                this.checkEmpires();
                 this.convertDate();
             },
             error => {
@@ -58,6 +60,14 @@ export class PlayerListComponent implements OnInit {
     modalSelectionOpen(item: Player){
         this.selectedLineId = item.id;
         this.selectedLineJoueur = item.name;
+    }
+
+    checkEmpires(){
+        this.data.forEach(player => {
+            if (!player.current_empire){
+                player.current_empire = 'Nouvel empire';
+            }
+        });
     }
 
     convertDate(){
@@ -73,6 +83,8 @@ export class PlayerListComponent implements OnInit {
             }
         });
        this.viewIsLoad = true;
+       this.refresh = false;
+       setTimeout(()=>{this.refresh=true;}, 30000);
     }
 
 }
